@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Rock Paper Scissors</h1>
+    <div id="choices">
+        <button onclick="play('🗿')">🗿</button>
+        <button onclick="play('📄')">📄</button>
+        <button onclick="play('✂️')">✂️</button>
+    </div>
+    <h2>Results</h2>
+    <p id="results"></p>
+    <h3>Score: </h3>
+    <p>User: <span id="userScr">0</span></p>
+    <p>AI: <span id="aiScr">0</span></p>
+    <p>Draws: <span id="draw">0</span></p>
+
+    <script>
+        let userScore = 0;
+        let aiScore = 0;
+        let draws = 0;
+        function play(userChoice){
+            const aiChoice = getAiChoice();
+            const results = winner(userChoice, aiChoice);
+            updateScore(results);
+            displayResults(userChoice, aiChoice, results);
+            checkWinner();
+        }
+        function checkWinner(){
+            let resultMessage = document.getElementById('results');
+            if(userScore == 5){
+                resultMessage.innerHTML = "User Wins!";
+            }else if(aiScore == 5){
+                resultMessage.innerHTML = "Ai Wins";
+            }else{return;}
+
+            userScore = 0;
+            aiScore = 0;
+            draws = 0;
+            document.getElementById('userScr').innerHTML = "0";
+            document.getElementById('aiScr').innerHTML = "0";
+            document.getElementById('draw').innerHTML = "0";
+        }
+        function updateScore(results){
+            if(results == "user"){
+                userScore++;
+                document.getElementById('userScr').innerHTML = userScore;
+            }else if(results == "ai"){
+                aiScore++;
+                document.getElementById('aiScr').innerHTML = aiScore;
+              }else{
+                draws++;
+                document.getElementById('draw').innerHTML = draws;
+            }
+        }
+        function displayResults(userChoice, aiChoice, results){
+            let resultMessage = document.getElementById('results');
+            let message = `You palyed ${userChoice}, AI played ${aiChoice}. `;
+            if(results == "user"){
+                message += "You WIN! 🎉";
+            }else if(results == "ai"){
+                message += "AI WINs. 🤖";
+            }else{
+                message += "It's a Draw. 🔁";
+            }
+            resultMessage.innerHTML = message;
+        }
+
+        function getAiChoice(){
+            const choices1 = ['🗿', '📄', '✂️'];
+            const index = Math.floor(Math.random() * 3);
+            return choices1[index];
+        }
+        function winner(userChoice, aiChoice){
+            if(userChoice == aiChoice) {return "draw";}
+            if(userChoice == '🗿' && aiChoice == '✂️' || userChoice == '📄' && aiChoice == '🗿' || userChoice == '✂️' && aiChoice == '📄') {return "user";}
+            
+            return "ai";
+        }
+    </script>
+</body>
+</html>
